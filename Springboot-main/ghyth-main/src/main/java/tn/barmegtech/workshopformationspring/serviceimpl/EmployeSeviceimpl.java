@@ -96,6 +96,26 @@ public class EmployeSeviceimpl implements EmployeSevice {
 			optemp.get().setFullname(empdto.getFullname());
 			optemp.get().setAge(empdto.getAge());
 			optemp.get().setDateRecrutement(empdto.getDateRecrutement());
+			Optional<Departement> optiodep = departementRepos.findById(empdto.getIddept());
+			if (optiodep.isPresent()) {
+				optemp.get().setDepartement(optiodep.get());
+			} else {
+				throw new RuntimeException("no dept");
+			}
+			objectsValidatoradr.validate(empdto.getAddrdto());
+			Addresse adrss = AddresseDtO.toentity(empdto.getAddrdto());
+			Addresse addsaved = addresseRepository.save(adrss);
+			optemp.get().setAddresse(addsaved);
+			Set<Long> intcompts= empdto.getCompts();
+	        Set<Competences> compset = new HashSet<>();
+	        intcompts.forEach(ids -> {
+	        	Competences compsetbyid = competencesRepository.findById(ids)
+	                    .orElseThrow(() -> new RuntimeException("not found."));
+	        	compset.add(compsetbyid);
+
+
+	    });
+	        optemp.get().setCompetencs(compset);
 			return Employedto.fromentity(employeRepository.save(optemp.get()));
 		} else {
 			throw new RuntimeException(" not exist" + empdto.getId());
