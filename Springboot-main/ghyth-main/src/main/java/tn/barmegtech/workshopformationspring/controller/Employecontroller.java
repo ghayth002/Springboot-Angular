@@ -1,9 +1,11 @@
 package tn.barmegtech.workshopformationspring.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import jakarta.validation.Valid;
 import org.springframework.core.io.Resource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,7 +49,7 @@ public class Employecontroller {
 		return employeSevice.lister();
 	}
 	@GetMapping("/lister/{key}")
-	public List<Employedto> chercherparnom(@PathVariable("key") String key) {
+	public List<Employee> chercherparnom(@PathVariable("key") String key) {
 		return employeSevice.chercherparnom(key);
 	}
 	@GetMapping("/listerbyresp/{key}")
@@ -68,5 +70,9 @@ public class Employecontroller {
 		public List<Employee> employeeList() {
 			return employeSevice.employees();
 		}
-
+	@GetMapping("/findbydate")
+	public List<Employee> findByDate(@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+									 @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
+		return employeSevice.findByDate(startDate, endDate);
+	}
 }

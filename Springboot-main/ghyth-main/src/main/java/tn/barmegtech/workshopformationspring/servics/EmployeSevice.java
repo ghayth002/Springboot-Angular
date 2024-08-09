@@ -1,5 +1,6 @@
 package tn.barmegtech.workshopformationspring.servics;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -17,8 +18,9 @@ public interface EmployeSevice {
 
     List<Employee> employees();
 
-    List<Employedto> chercherparnom(String key);
+    List<Employee> chercherparnom(String key);
 	List<Employedto> chercherparRespEmp(String key);
 	Employee uploadImageEmployee(Long empId, MultipartFile image);
 
+	List<Employee> findByDate(Date startDate, Date endDate);
 }

@@ -1,9 +1,6 @@
 package tn.barmegtech.workshopformationspring.serviceimpl;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
@@ -146,9 +143,8 @@ public class EmployeSeviceimpl implements EmployeSevice {
 
 
 	@Override
-	public List<Employedto> chercherparnom(String key) {
-		return employeRepository.findemployebyname(key).stream().map(Employedto::fromentity)
-				.collect(Collectors.toList());
+	public List<Employee> chercherparnom(String key) {
+		return employeRepository.findemployebyname(key);
 	}
 
 	@Override
@@ -174,6 +170,10 @@ public class EmployeSeviceimpl implements EmployeSevice {
 	        if (empl!=null)
 	        	empl.setImg(fileImageDownloadUrl);
 	        return employeRepository.save(empl);
+	}
+	@Override
+	public List<Employee> findByDate(Date startDate, Date endDate) {
+		return employeRepository.findBydate(startDate, endDate);
 	}
 
 }
